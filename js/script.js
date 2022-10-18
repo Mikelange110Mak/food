@@ -152,13 +152,22 @@ window.addEventListener('DOMContentLoaded', () => {
       return await res.json()
    }
 
+   /* Закомментировано, потому-что ниже использовал библиотеку axios для работы с сервером
+      getResource('http://localhost:3000/menu')
+         .then(data => {
+            data.forEach(({ img, altimg, title, descr, price }) => {
+               new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            })
+         })
+   */
 
-   getResource('http://localhost:3000/menu')
+   //Axios - библиотека которая позволяет рабоать с сервером
+   axios.get('http://localhost:3000/menu')
       .then(data => {
-         data.forEach(({ img, altimg, title, descr, price }) => {
+         data.data.forEach(({ img, altimg, title, descr, price }) => {
             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
          })
-      })
+      });
 
 
    /* Второй метод. Динамическая верстка без использования классов:
@@ -229,7 +238,6 @@ window.addEventListener('DOMContentLoaded', () => {
          const json = JSON.stringify(Object.fromEntries(formData.entries()))
 
          postData('http://localhost:3000/requests', json)
-
             .then(data => {
                console.log(data);
                showThanksModal(message.success);
